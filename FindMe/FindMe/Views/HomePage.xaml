@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:FindMe.ViewModels;assembly=FindMe"
+             x:Class="FindMe.Views.HomePage"
+            Title="FindMe Agents"
+            BarBackgroundColor="OrangeRed"
+            BarTextColor="White"
+            BackgroundColor="White">
+    <TabbedPage.BindingContext>
+        <viewModels:HomeViewModel/>
+    </TabbedPage.BindingContext>
+    <ContentPage Title="Register" BackgroundColor="White">
+        <FlexLayout
+            Direction="Column"
+            AlignItems="Stretch"
+            JustifyContent="Center">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <ScrollView>
+                    <StackLayout Margin="40,0,40,0">
+                        <Label TextColor="OrangeRed" Text="First Name"/>
+                        <Entry Keyboard="Text"  Margin="0,0,0,20" Text="{Binding FirstName}"/>
+                        <Label  TextColor="OrangeRed" Text="Last Name"/>
+                        <Entry  Margin="0,0,0,20" Text="{Binding LastName}"/>
+                        <Label TextColor="OrangeRed" Text="Company Title"/>
+                        <Entry  Margin="0,0,0,20" Text="{Binding CompanyTitle}"/>
+                        <Label TextColor="OrangeRed" Text="Company Address"/>
+                        <Entry Margin="0,0,0,20" Text="{Binding CompanyAddress}"/>
+
+                        <Label TextColor="OrangeRed" Text="Phone Number"/>
+                        <Entry Keyboard="Telephone" Margin="0,0,0,20" Text="{Binding Phone}"/>
+                        <Label TextColor="OrangeRed" Text="Email"/>
+                        <Entry Keyboard="Email"  Margin="0,0,0,20" Text="{Binding Email}"/>
+                        <Image  Aspect="AspectFill" x:Name="photo" HeightRequest="170" BackgroundColor="Beige" HorizontalOptions="Fill"/>
+                        <StackLayout Orientation="Horizontal">
+                            <Button BackgroundColor="OrangeRed" TextColor="White" Clicked="TakePhoto_Clicked" Text="Take Photo" HorizontalOptions="FillAndExpand"/>
+                            <Button BackgroundColor="OrangeRed" TextColor="White" Clicked="PickPhoto_Clicked" Text="Pick Photo" HorizontalOptions="FillAndExpand"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Label VerticalOptions="Center" TextColor="OrangeRed" Text="Location Coordinates" HorizontalOptions="StartAndExpand"/>
+                            <Button VerticalOptions="Center" Text="ADD" TextColor="White" HorizontalOptions="EndAndExpand" BackgroundColor="OrangeRed"  Command="{Binding CoordinateAddCommand}"/>
+                        </StackLayout>
+                        
+                        <ListView
+                            HeightRequest="200"
+                            HorizontalOptions="FillAndExpand"
+                            HasUnevenRows="True"
+                            ItemsSource="{Binding MyCoordinate}" 
+                            BackgroundColor="Gray">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Frame
+                                            BorderColor="OrangeRed"
+                                            BackgroundColor="Wheat"
+                                            CornerRadius="7"
+                                            Padding="20,20,20,20"
+                                            Margin="10,5,10,5">
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="{Binding Latittude, StringFormat='Latitude: {0}'}" FontSize="Small" TextColor="OrangeRed"/>
+                                                <Label Text="{Binding Longitude, StringFormat='Longitude: {0}'}" FontSize="Small" TextColor="OrangeRed"/>
+                                            </StackLayout>
+                                        </Frame>
+
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                </ScrollView>
+
+                <Button BorderColor="OrangeRed" BorderWidth="2" Margin="40,0,40,0" Grid.Row="1" Text="Register" TextColor="OrangeRed" BackgroundColor="White" CornerRadius="10" HeightRequest="62" Command="{Binding RegisterCommand}"/>
+            </Grid>
+
+        </FlexLayout>
+    </ContentPage>
+    <ContentPage Title="{Binding ALabel}">
+
+        <StackLayout>
+            <Button Text="{Binding AButton}" TextColor="OrangeRed" Command="{Binding UploadCommand}"/>
+            <ListView
+                HasUnevenRows="True"
+                ItemsSource="{Binding Users}" 
+                IsPullToRefreshEnabled="True"
+                RefreshCommand="{Binding RefreshCommand}"
+                IsRefreshing="{Binding isrefreshing}"
+                BackgroundColor="Gray"
+                x:Name="listv">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame
+                                BorderColor="OrangeRed"
+                                BackgroundColor="Wheat"
+                                CornerRadius="7"
+                                Padding="20,20,20,20"
+                                Margin="10,5,10,5">
+                                <StackLayout>
+                                    <Label Text="{Binding FullName}" FontSize="Medium" TextColor="OrangeRed"/>
+                                    <Label Text="{Binding CompanyTitle}" FontSize="Small" TextColor="Black"/>
+                                    <Label Text="{Binding RegistrationDate}" FontSize="Small" TextColor="Black"/>
+                                </StackLayout>
+                            </Frame>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage>
+
+</TabbedPage>
